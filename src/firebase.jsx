@@ -1,8 +1,10 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_KEY,
+  apiKey: "AIzaSyC0tnOq5rDhqeytNjfAQgpnUxDew0pd5-E",
   authDomain: "store-tutorial-fc60f.firebaseapp.com",
   projectId: "store-tutorial-fc60f",
   storageBucket: "store-tutorial-fc60f.appspot.com",
@@ -12,3 +14,5 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
+export const db = getFirestore(app);
+export const storage = getStorage (app);

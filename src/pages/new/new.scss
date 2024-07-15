@@ -8,12 +8,12 @@
     .top,
     .bottom {
       -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-      box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+      box-shadow: 2px 4px 10px 1px #ede6f5;
       padding: 10px;
       margin: 20px;
       display: flex;
 
-      h1 {
+      h2 {
         color: lightgray;
         font-size: 20px;
       }
@@ -64,11 +64,16 @@
             width: 150px;
             padding: 10px;
             border: none;
-            background-color: teal;
+            background-color: rgb(53, 49, 110);
             color: white;
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
+
+            &:disabled{
+              background-color: rgba(3, 92, 92, 0.322);
+              cursor: not-allowed;
+            }
           }
         }
       }
