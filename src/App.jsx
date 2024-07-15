@@ -6,7 +6,7 @@ import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
-import Mylist from "./pages/categories/Mylist";
+import Mylist from "./pages/mylist/MyList.jsx";
 
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
@@ -15,7 +15,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"; // im
 import { AuthContext } from "./context/AuthContext";
 import { productInputs, userInputs } from "./formsource"; // import dari formsource.jsx
 
-import { userColumns, productColumns } from "./datatablesource";
+import { userColumns, productColumns } from "./datatablesource";// import dari datablesource.jsx
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
