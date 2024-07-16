@@ -1,34 +1,66 @@
-.login{
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.login {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: black;
 
-    form{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+  &.dark {
+    background-color: #2c2c2c;
+    color: white;
 
-      input{
-        width: 200px;
-        height: 30px;
-        margin: 10px;
-      }
-
-      button{
-        width: 200px;
-        height: 30px;
-        border: none;
-        background-color: brown;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-      }
-
-      span{
-        font-size: 12px;
-        color: red;
-        margin-top: 10px;
-      }
+    input {
+      background-color: #3c3c3c;
+      color: white;
+      border: 1px solid #555;
     }
+
+    button {
+      background-color: #555;
+    }
+
+    span {
+      color: #ff4c4c;
+    }
+  }
+
+  .toggle-dark-mode {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: transparent;
+    border: 1px solid currentColor;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    input {
+      width: 200px;
+      height: 30px;
+      margin: 10px;
+    }
+
+    button {
+      width: 200px;
+      height: 30px;
+      border: none;
+      background-color: brown;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    span {
+      font-size: 12px;
+      color: red;
+      margin-top: 10px;
+    }
+  }
 }

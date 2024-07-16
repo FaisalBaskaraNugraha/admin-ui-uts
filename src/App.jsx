@@ -7,6 +7,9 @@ import List from "./pages/list/List";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
 import Mylist from "./pages/mylist/MyList.jsx";
+import MyDatatable from "src/components/mydatatable/MyDatatable.jsx";
+import NewCategory from "src/pages/new/NewCategory.jsx";
+import SingleCategory from "src/pages/single/SingleCategory.jsx";
 
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
@@ -115,12 +118,16 @@ function App() {
                   </RequireAuth>
                 }
               ></Route>
+              <Route path="new" element={<NewCategory />} />
+              <Route path=":categoryId" element={<SingleCategory />} />
             </Route>
           </Route>
         </Routes>
       </BrowserRouter>
     </div>
   );
+
+
 }
 
 export default App;

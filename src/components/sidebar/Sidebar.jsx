@@ -1,17 +1,34 @@
 import "./sidebar.scss";
-import { Link } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
-import StoreRoundedIcon from "@mui/icons-material/StoreRounded";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import StoreIcon from "@mui/icons-material/Store";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import CategoryIcon from "@mui/icons-material/Category";
-import { DarkModeContext } from "../../context/darkModeContext";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useContext } from "react";
+import { DarkModeContext } from "../../context/darkModeContext";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
+import { AuthContext } from "../../context/AuthContext";
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
+  
+  const { dispatch: authDispatch } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        authDispatch({type: "LOGOUT"});
+        navigate("/login")//Redirected to login page after logout
+      })
+      .catch((error) => {
+        console.error("Logout  error: ", error)
+      });
+  };
 
   return (
     <div className="sidebar">
@@ -30,46 +47,45 @@ const Sidebar = () => {
           </li>
           <p className="title">LIST</p>
           <Link to="/users">
-            <li data-testid="users">
-              <PersonOutlineOutlinedIcon className="icon" />
+            <li>
+              <PersonOutlineIcon className="icon" />
               <span>Users</span>
             </li>
           </Link>
           <Link to="/products">
             <li>
-              <CreditCardOutlinedIcon className="icon" />
+              <CreditCardIcon className="icon" />
               <span>Products</span>
             </li>
           </Link>
           <li>
-            <StoreRoundedIcon className="icon" />
+            <StoreIcon className="icon" />
             <span>Orders</span>
           </li>
-
           <Link to="/categories">
             <li>
               <CategoryIcon className="icon" />
               <span>Categories</span>
             </li>
           </Link>
-
           <p className="title">USER</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />
             <span>Profile</span>
           </li>
-          <li>
-            <LogoutOutlinedIcon className="icon" />
+          <li onClick={handleLogout}>
+            <ExitToAppIcon className="icon" />
             <span>Logout</span>
           </li>
         </ul>
       </div>
       <div className="bottom">
-        <div className="colorOption" onClick={() => dispatch({ type: "LIGHT" })}></div>
-        <div className="colorOption" onClick={() => dispatch({ type: "DARK" })}></div>
+        <div className="colorOption" onClick={() => dispatch({type:"LIGHT"})}></div>
+        <div className="colorOption" onClick={() => dispatch({type:"DARK"})}></div>
       </div>
     </div>
   );
 };
 
 export default Sidebar;
+
