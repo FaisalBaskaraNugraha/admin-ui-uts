@@ -4,7 +4,16 @@
 
   .chartGrid {
     stroke: rgba(228, 228, 228, 0.219);
-  } 
+  }
+
+  .login {
+    color: #999;
+    border-color: #333;
+    
+    // .form{
+    //   border-color: #098700;
+    // }
+  }
 
   .navbar {
     color: #999;
@@ -45,8 +54,8 @@
     .datagrid {
       color: gray;
       border: none;
-      
-      div{
+
+      div {
         color: gray;
         background-color: transparent;
       }
@@ -58,7 +67,7 @@
     }
   }
 
-  input{
-      background-color: transparent;
+  input {
+    background-color: transparent;
   }
 }
