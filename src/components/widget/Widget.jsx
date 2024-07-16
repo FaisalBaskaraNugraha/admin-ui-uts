@@ -1,18 +1,20 @@
 import "./widget.scss";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"; //icon panah ke atas
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined"; //icon person di user
+import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined"; //icon balance
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined"; //icon orders
+import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined"; //icon earnings
+
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import { useEffect, useState } from "react";
-import { collection, query, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const Widget = ({ type }) => {
+  let data;
+
   const [amount, setAmount] = useState(null);
   const [diff, setDiff] = useState(null);
-
-  let data;
 
   switch (type) {
     case "user":
@@ -32,11 +34,12 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "product":
+
+    case "order":
       data = {
-        title: "PRODUCTS",
+        title: "PRODUCT",
         isMoney: false,
-        link: "View all products",
+        link: "View All Product",
         query: "products",
         icon: (
           <ShoppingCartOutlinedIcon
@@ -49,18 +52,29 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "category":
+
+    case "earning":
       data = {
         title: "CATEGORIES",
-        isMoney: false,
-        link: "See all categories",
+        isMoney: true,
+        link: "View All Categories",
         query: "categories",
+        icon: <MonetizationOnOutlinedIcon className="icon" style={{ backgroundColor: "rgba(0, 128, 0, 0.2)", color: "green" }} />,
+      };
+      break;
+
+    case "balance":
+      data = {
+        title: "BALANCE",
+        isMoney: true,
+        link: "See details",
+        query: "users",
         icon: (
-          <CategoryOutlinedIcon
+          <AccountBalanceWalletOutlinedIcon
             className="icon"
             style={{
-              backgroundColor: "rgba(0, 128, 0, 0.2)",
-              color: "green",
+              backgroundColor: "rgba(44, 108, 255, 0.2)",
+              color: "blue",
             }}
           />
         ),
@@ -72,27 +86,40 @@ const Widget = ({ type }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const collectionRef = collection(db, data.query);
-      const querySnapshot = await getDocs(collectionRef);
-      setAmount(querySnapshot.size);
+      const today = new Date();
+      const lastMonth = new Date(new Date().setMonth(today.getMonth() - 1));
+      const prevMonth = new Date(new Date().setMonth(today.getMonth() - 2));
 
-      // Simplified diff calculation (just for demonstration)
-      setDiff(Math.floor(Math.random() * 100) - 50); // Random number between -50 and 50
+      const lastMonthQuery = query(collection(db, data.query), where("timeStamp", "<=", today), where("timeStamp", ">", lastMonth));
+      const prevMonthQuery = query(collection(db, data.query), where("timeStamp", "<=", lastMonth), where("timeStamp", ">", prevMonth));
+
+      const lastMonthData = await getDocs(lastMonthQuery);
+      const prevMonthData = await getDocs(prevMonthQuery);
+
+      setAmount(lastMonthData.docs.length);
+      setDiff(100);
+
+      if (prevMonthData.docs.length > 0) {
+        setDiff(((lastMonthData.docs.length - prevMonthData.docs.length) / prevMonthData.docs.length) * 100);
+      }
     };
     fetchData();
-  }, [data.query]);
+  }, []);
 
   return (
     <div className="widget">
       <div className="left">
         <div className="title">{data.title}</div>
-        <div className="counter">{amount}</div>
+        <div className="counter">
+          {data.isMoney && "$"} {amount}
+        </div>
         <div className="link">{data.link}</div>
       </div>
+
       <div className="right">
         <div className={`percentage ${diff < 0 ? "negative" : "positive"}`}>
           {diff < 0 ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
-          {Math.abs(diff)}%
+          {diff} %
         </div>
         {data.icon}
       </div>

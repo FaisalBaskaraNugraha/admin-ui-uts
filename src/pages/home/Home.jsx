@@ -4,17 +4,17 @@ import Widget from "../../components/widget/Widget";
 import Chart from "../../components/chart/Chart";
 import "./home.scss";
 
-const Home = () => {
+const Home = () => {  
   return (
     <div className="home">
       <Sidebar />
       <div className="homeContainer">
         <Navbar />
         <div className="widgets">
-          <Widget type="user" />
+          <Widget type="user" />  
           <Widget type="order" />
           <Widget type="earning" />
-          <Widget type="balance" />
+          {/* <Widget type="balance" /> */}
         </div>
         <div className="charts">
           <Chart type="order" aspect={2 / 1} />

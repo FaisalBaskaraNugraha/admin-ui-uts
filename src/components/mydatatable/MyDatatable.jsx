@@ -1,20 +1,14 @@
 import "./mydatatable.scss";
+
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {useState, useEffect } from "react";
 import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
-import Widget from "../../components/widget/Widget";
-import CategoriesDatatable from ".src/components/widget\Widget.jsx";
 
-const categoriesColumns = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "name", headerName: "Name", width: 230 },
-];
-
-const MyDatatable = () => {
+const Mydatatable = ({columns}) => {
   const location = useLocation();
-  const type = "categories";
+  const type = location.pathname.split("/")[1];
 
   const [data, setData] = useState([]);
 
@@ -36,7 +30,7 @@ const MyDatatable = () => {
     return () => {
       unsub();
     };
-  }, []);
+  }, [type]);
 
   const handleDelete = async (id) => {
     try {
@@ -46,18 +40,19 @@ const MyDatatable = () => {
       console.log(err);
     }
   };
-
+  
   const actionColumn = [
-    {field: "action",
+    {
+      field: "action",
       headerName: "Action",
       width: 200,
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to={"/" + type + "/" + params.row.id} style={{ textDecoration: "none" }}>
+            <span>
+              <Link to={"/" + type + "/" + params.row.id} style={{ textDecoration: "none" }}>
               <span className="viewButton">View</span>
             </Link>
-            <span>
               <span className="deleteButton" onClick={() => handleDelete(params.row.id)}>
                 Delete
               </span>
@@ -69,17 +64,18 @@ const MyDatatable = () => {
   ];
 
   return (
-    <div className="datatable">
-      <div className="datatableTitle">
+    <div className="mydatatable">
+      <div className="mydatatableTitle">
         {type.toUpperCase()}
         <Link to={"/" + type + "/new"} className="link">
           Add New
         </Link>
       </div>
+
       <DataGrid
         className="datagrid"
         rows={data}
-        columns={categoriesColumns.concat(actionColumn)}
+        columns={columns.concat(actionColumn)}
         initialState={{
           pagination: {
             paginationModel: { page: 0, pageSize: 5 },
@@ -90,17 +86,6 @@ const MyDatatable = () => {
       />
     </div>
   );
-  
-    return (
-    < div className="categories">
-        <div className="widgets">
-        <Widget type="category" />
-      </div>
-      <CategoriesDatatable />
-      
-      </div>
-    );
-  };
+};
 
-
-export default MyDatatable;
+export default Mydatatable;
