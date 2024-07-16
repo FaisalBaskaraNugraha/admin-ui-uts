@@ -6,19 +6,16 @@ import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
-import Mylist from "./pages/mylist/MyList.jsx";
-import MyDatatable from "src/components/mydatatable/MyDatatable.jsx";
-import NewCategory from "src/pages/new/NewCategory.jsx";
-import SingleCategory from "src/pages/single/SingleCategory.jsx";
+import Mylist from "./pages/categories/Mylist";
 
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"; // import dari react-router-dom
 import { AuthContext } from "./context/AuthContext";
-import { productInputs, userInputs } from "./formsource"; // import dari formsource.jsx
+import { productInputs, userInputs, categoriesInputs } from "./formsource"; // import dari formsource.jsx
 
-import { userColumns, productColumns } from "./datatablesource";// import dari datablesource.jsx
+import { userColumns, productColumns, categoriesColumns } from "./datatablesource";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -114,20 +111,34 @@ function App() {
                 index
                 element={
                   <RequireAuth>
-                    <Mylist />
+                    <List columns={categoriesColumns} />
+                  </RequireAuth>  
+                }
+              ></Route>
+              <Route
+                path=":categoriesId"
+                element={
+                  <RequireAuth>
+                    <Single columns={categoriesColumns} />
                   </RequireAuth>
                 }
               ></Route>
-              <Route path="new" element={<NewCategory />} />
-              <Route path=":categoryId" element={<SingleCategory />} />
+              <Route
+                path="new"
+                element={
+                  <RequireAuth>
+                    <New inputs={categoriesInputs} title="Add New Categories" />
+                  </RequireAuth>
+                }
+              />
             </Route>
+
+            
           </Route>
         </Routes>
       </BrowserRouter>
     </div>
   );
-
-
 }
 
 export default App;
