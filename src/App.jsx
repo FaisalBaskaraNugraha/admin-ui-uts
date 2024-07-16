@@ -6,7 +6,10 @@ import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
-import Mylist from "./pages/mylist/MyList";
+import Mylist from "./pages/mylist/MyList.jsx";
+import MyDatatable from "src/components/mydatatable/MyDatatable.jsx";
+import NewCategory from "src/pages/new/NewCategory.jsx";
+import SingleCategory from "src/pages/single/SingleCategory.jsx";
 
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
